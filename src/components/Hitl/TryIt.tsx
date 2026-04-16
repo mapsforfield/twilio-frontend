@@ -15,7 +15,6 @@ import {
 } from "@mui/joy";
 import { SendRounded, PhoneRounded } from "@mui/icons-material";
 import { apiClient } from "../../api-client";
-import type { PlainMessage } from "../../types/types";
 
 interface DemoMessage {
   id: string;
@@ -173,17 +172,7 @@ export default function TryIt() {
             gap: 2,
           }}
         >
-          {messages.map((msg) => {
-            const plainMessage: PlainMessage = {
-              id: msg.id,
-              content: msg.content,
-              timestamp: msg.timestamp.getTime(),
-              direction: msg.isBot ? "inbound" : "outbound",
-              from: msg.isBot ? "bot" : "user",
-              to: msg.isBot ? "user" : "bot",
-              status: "delivered",
-              errorCode: 0,
-            };
+          {messages.map((msg) => (
 
             return (
               <Stack
