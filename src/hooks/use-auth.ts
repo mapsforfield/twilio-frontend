@@ -1,4 +1,4 @@
-export function useAuth() {
+export function useAuth(..._args: any[]) {
   return {
     isInOrg: false,
     userId: undefined,
@@ -10,8 +10,8 @@ export function useAuth() {
     isOrgAdmin: false,
     errorMessage: undefined,
     signOut: async () => {},
-    signInGoogle: async () => {},
-    signInMagicLink: async () => {},
-    impersonateUser: async () => {},
+    signInGoogle: async (..._args: any[]) => {},
+    signInMagicLink: async (..._args: any[]) => {},
+    impersonateUser: async (..._args: any[]) => {},
   };
 }
