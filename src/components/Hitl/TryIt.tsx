@@ -67,13 +67,10 @@ export default function TryIt() {
     setError(null);
 
     try {
-      // Exclude the starting ("Howdy!") message
-      // Only build "previous conversation" context if there's more than just the current user message being sent
-      const conversationHistory = updatedMessages.slice(1); // Skip the first message always
+      const conversationHistory = updatedMessages.slice(1);
       let conversationContext = `<CurrentMessage>${message}</CurrentMessage>`;
 
       if (conversationHistory.length > 1) {
-        // Keep only the last 10 (excluding starter) to avoid token bloat
         const recentMessages = conversationHistory.slice(-10);
         const previousMessagesXml = recentMessages
           .map(
@@ -173,22 +170,20 @@ export default function TryIt() {
           }}
         >
           {messages.map((msg) => (
+            <Stack
+              key={msg.id}
+              direction="row"
+              spacing={2}
+              sx={{
+                flexDirection: msg.isBot ? "row" : "row-reverse",
+                alignItems: "flex-start",
+              }}
+            >
+              {msg.isBot && <Avatar />}
+              {/* <ChatBubble ... /> */}
+            </Stack>
+          ))}
 
-            return (
-              <Stack
-                key={msg.id}
-                direction="row"
-                spacing={2}
-                sx={{
-                  flexDirection: msg.isBot ? "row" : "row-reverse",
-                  alignItems: "flex-start",
-                }}
-              >
-                {msg.isBot && <Avatar />}
-                {/* <ChatBubble {...plainMessage} /> */}
-              </Stack>
-            );
-          })}
           {isLoading && (
             <Stack
               direction="row"
@@ -208,6 +203,7 @@ export default function TryIt() {
               /> */}
             </Stack>
           )}
+
           <div ref={messagesEndRef} />
         </Box>
 
