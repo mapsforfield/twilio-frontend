@@ -1,4 +1,4 @@
-export function useAuth(..._args: any[]) {
+export const useAuth: any = (..._args: any[]) => {
   return {
     isInOrg: false,
     userId: undefined,
@@ -14,4 +14,4 @@ export function useAuth(..._args: any[]) {
     signInMagicLink: async (..._args: any[]) => {},
     impersonateUser: async (..._args: any[]) => {},
   };
-}
+};
