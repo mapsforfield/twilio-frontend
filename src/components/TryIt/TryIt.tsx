@@ -15,7 +15,6 @@ import {
 import { SendRounded, PhoneRounded } from "@mui/icons-material";
 import { apiClient } from "../../api-client";
 // import ChatBubble from "../Messages/ChatBubble";
-import type { PlainMessage } from "../../types/types";
 
 interface DemoMessage {
   id: string;
@@ -68,13 +67,10 @@ export default function TryIt() {
     setError(null);
 
     try {
-      // Exclude the starting ("Howdy!") message
-      // Only build "previous conversation" context if there's more than just the current user message being sent
-      const conversationHistory = updatedMessages.slice(1); // Skip the first message always
+      const conversationHistory = updatedMessages.slice(1);
       let conversationContext = `<CurrentMessage>${message}</CurrentMessage>`;
 
       if (conversationHistory.length > 1) {
-        // Keep only the last 10 (excluding starter) to avoid token bloat
         const recentMessages = conversationHistory.slice(-10);
         const previousMessagesXml = recentMessages
           .map(
@@ -163,33 +159,21 @@ export default function TryIt() {
             gap: 2,
           }}
         >
-          {messages.map((msg) => {
-            const plainMessage: PlainMessage = {
-              id: msg.id,
-              content: msg.content,
-              timestamp: msg.timestamp.getTime(),
-              direction: msg.isBot ? "inbound" : "outbound",
-              from: msg.isBot ? "bot" : "user",
-              to: msg.isBot ? "user" : "bot",
-              status: "delivered",
-              errorCode: 0,
-            };
+          {messages.map((msg) => (
+            <Stack
+              key={msg.id}
+              direction="row"
+              spacing={2}
+              sx={{
+                flexDirection: msg.isBot ? "row" : "row-reverse",
+                alignItems: "flex-start",
+              }}
+            >
+              {msg.isBot && <Avatar />}
+              {/* <ChatBubble ... /> */}
+            </Stack>
+          ))}
 
-            return (
-              <Stack
-                key={msg.id}
-                direction="row"
-                spacing={2}
-                sx={{
-                  flexDirection: msg.isBot ? "row" : "row-reverse",
-                  alignItems: "flex-start",
-                }}
-              >
-                {msg.isBot && <Avatar />}
-                {/* <ChatBubble {...plainMessage} /> */}
-              </Stack>
-            );
-          })}
           {isLoading && (
             <Stack
               direction="row"
@@ -209,6 +193,7 @@ export default function TryIt() {
               /> */}
             </Stack>
           )}
+
           <div ref={messagesEndRef} />
         </Box>
 
@@ -220,6 +205,7 @@ export default function TryIt() {
               {error}
             </Alert>
           )}
+
           <Stack spacing={1} direction="row">
             <Input
               placeholder="Type your message here..."
@@ -239,6 +225,7 @@ export default function TryIt() {
               Send
             </Button>
           </Stack>
+
           <Typography level="body-xs" sx={{ mt: 1, opacity: 0.7 }}>
             Press Cmd/Ctrl + Enter to send
           </Typography>
