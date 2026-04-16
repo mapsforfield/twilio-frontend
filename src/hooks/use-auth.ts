@@ -9,7 +9,7 @@ export function useAuth(..._args: any[]) {
     orgMembers: [],
     isOrgAdmin: false,
     errorMessage: undefined,
-    signOut: async () => {},
+    signOut: async (..._args: any[]) => {},
     signInGoogle: async (..._args: any[]) => {},
     signInMagicLink: async (..._args: any[]) => {},
     impersonateUser: async (..._args: any[]) => {},
