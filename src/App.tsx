@@ -1,7 +1,5 @@
 import TryIt from "./components/Hitl/TryIt";
 
-function App() {
+export default function App() {
   return <TryIt />;
 }
-
-export default App;
